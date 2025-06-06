@@ -30,7 +30,7 @@ extension AsyncSequence {
   ///   the result.
   /// - Returns: An asynchronous sequence of the reduced elements.
   @available(AsyncAlgorithms 1.0, *)
-  @inlinable
+  
   public func reductions(
     _ transform: @Sendable @escaping (Element, Element) async -> Element
   ) -> AsyncInclusiveReductionsSequence<Self> {
@@ -43,13 +43,13 @@ extension AsyncSequence {
 @available(AsyncAlgorithms 1.0, *)
 @frozen
 public struct AsyncInclusiveReductionsSequence<Base: AsyncSequence> {
-  @usableFromInline
+  
   let base: Base
 
-  @usableFromInline
+  
   let transform: @Sendable (Base.Element, Base.Element) async -> Base.Element
 
-  @inlinable
+  
   init(_ base: Base, transform: @Sendable @escaping (Base.Element, Base.Element) async -> Base.Element) {
     self.base = base
     self.transform = transform
@@ -64,16 +64,16 @@ extension AsyncInclusiveReductionsSequence: AsyncSequence {
   @available(AsyncAlgorithms 1.0, *)
   @frozen
   public struct Iterator: AsyncIteratorProtocol {
-    @usableFromInline
+    
     internal var iterator: Base.AsyncIterator
 
-    @usableFromInline
+    
     internal var element: Base.Element?
 
-    @usableFromInline
+    
     internal let transform: @Sendable (Base.Element, Base.Element) async -> Base.Element
 
-    @inlinable
+    
     init(
       _ iterator: Base.AsyncIterator,
       transform: @Sendable @escaping (Base.Element, Base.Element) async -> Base.Element
@@ -82,7 +82,7 @@ extension AsyncInclusiveReductionsSequence: AsyncSequence {
       self.transform = transform
     }
 
-    @inlinable
+    
     public mutating func next() async rethrows -> Base.Element? {
       guard let previous = element else {
         element = try await iterator.next()
@@ -95,7 +95,7 @@ extension AsyncInclusiveReductionsSequence: AsyncSequence {
   }
 
   @available(AsyncAlgorithms 1.0, *)
-  @inlinable
+  
   public func makeAsyncIterator() -> Iterator {
     Iterator(base.makeAsyncIterator(), transform: transform)
   }

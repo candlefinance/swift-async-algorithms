@@ -28,7 +28,7 @@ extension AsyncSequence {
   /// - Returns: An `AsyncSequence` where the element is a tuple of two adjacent elements
   ///   or the original `AsyncSequence`.
   @available(AsyncAlgorithms 1.0, *)
-  @inlinable
+  
   public func adjacentPairs() -> AsyncAdjacentPairsSequence<Self> {
     AsyncAdjacentPairsSequence(self)
   }
@@ -41,10 +41,10 @@ extension AsyncSequence {
 public struct AsyncAdjacentPairsSequence<Base: AsyncSequence>: AsyncSequence {
   public typealias Element = (Base.Element, Base.Element)
 
-  @usableFromInline
+  
   let base: Base
 
-  @inlinable
+  
   init(_ base: Base) {
     self.base = base
   }
@@ -54,18 +54,18 @@ public struct AsyncAdjacentPairsSequence<Base: AsyncSequence>: AsyncSequence {
   public struct Iterator: AsyncIteratorProtocol {
     public typealias Element = (Base.Element, Base.Element)
 
-    @usableFromInline
+    
     var base: Base.AsyncIterator
 
-    @usableFromInline
+    
     internal var previousElement: Base.Element?
 
-    @inlinable
+    
     init(_ base: Base.AsyncIterator) {
       self.base = base
     }
 
-    @inlinable
+    
     public mutating func next() async rethrows -> (Base.Element, Base.Element)? {
       if previousElement == nil {
         previousElement = try await base.next()
@@ -80,7 +80,7 @@ public struct AsyncAdjacentPairsSequence<Base: AsyncSequence>: AsyncSequence {
     }
   }
 
-  @inlinable
+  
   public func makeAsyncIterator() -> Iterator {
     Iterator(base.makeAsyncIterator())
   }

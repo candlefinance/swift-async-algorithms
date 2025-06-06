@@ -13,7 +13,7 @@
 extension AsyncSequence where Element: AsyncSequence {
   /// Concatenate an `AsyncSequence` of `AsyncSequence` elements with a separator.
   @available(AsyncAlgorithms 1.0, *)
-  @inlinable
+  
   public func joined<Separator: AsyncSequence>(
     separator: Separator
   ) -> AsyncJoinedBySeparatorSequence<Self, Separator> {
@@ -30,16 +30,16 @@ where Base.Element: AsyncSequence, Separator.Element == Base.Element.Element {
 
   /// The iterator for an `AsyncJoinedBySeparatorSequence` instance.
   public struct Iterator: AsyncIteratorProtocol {
-    @usableFromInline
+    
     enum State {
-      @usableFromInline
+      
       enum SeparatorState {
         case initial(Separator)
         case partialAsync(Separator.AsyncIterator, ContiguousArray<Element>)
         case cached(ContiguousArray<Element>)
         case partialCached(ContiguousArray<Element>.Iterator, ContiguousArray<Element>)
 
-        @usableFromInline
+        
         func startSeparator() -> SeparatorState {
           switch self {
           case .initial(let separatorSequence):
@@ -51,7 +51,7 @@ where Base.Element: AsyncSequence, Separator.Element == Base.Element.Element {
           }
         }
 
-        @usableFromInline
+        
         func next() async rethrows -> (Element?, SeparatorState) {
           switch self {
           case .partialAsync(var separatorIterator, var cache):
@@ -77,15 +77,15 @@ where Base.Element: AsyncSequence, Separator.Element == Base.Element.Element {
       case terminal
     }
 
-    @usableFromInline
+    
     var state: State
 
-    @usableFromInline
+    
     init(_ iterator: Base.AsyncIterator, separator: Separator) {
       state = .initial(iterator, separator)
     }
 
-    @inlinable
+    
     public mutating func next() async rethrows -> Base.Element.Element? {
       do {
         switch state {
@@ -128,19 +128,19 @@ where Base.Element: AsyncSequence, Separator.Element == Base.Element.Element {
     }
   }
 
-  @usableFromInline
+  
   let base: Base
 
-  @usableFromInline
+  
   let separator: Separator
 
-  @usableFromInline
+  
   init(_ base: Base, separator: Separator) {
     self.base = base
     self.separator = separator
   }
 
-  @inlinable
+  
   public func makeAsyncIterator() -> Iterator {
     return Iterator(base.makeAsyncIterator(), separator: separator)
   }

@@ -14,7 +14,7 @@ extension AsyncSequence {
   /// Creates an asynchronous sequence that creates chunks of a given `RangeReplaceableCollection`
   /// type by testing if elements belong in the same group.
   @available(AsyncAlgorithms 1.0, *)
-  @inlinable
+  
   public func chunked<Collected: RangeReplaceableCollection>(
     into: Collected.Type,
     by belongInSameGroup: @escaping @Sendable (Element, Element) -> Bool
@@ -24,7 +24,7 @@ extension AsyncSequence {
 
   /// Creates an asynchronous sequence that creates chunks by testing if elements belong in the same group.
   @available(AsyncAlgorithms 1.0, *)
-  @inlinable
+  
   public func chunked(
     by belongInSameGroup: @escaping @Sendable (Element, Element) -> Bool
   ) -> AsyncChunkedByGroupSequence<Self, [Element]> {
@@ -63,22 +63,22 @@ where Collected.Element == Base.Element {
   @frozen
   public struct Iterator: AsyncIteratorProtocol {
 
-    @usableFromInline
+    
     var base: Base.AsyncIterator
 
-    @usableFromInline
+    
     let grouping: @Sendable (Base.Element, Base.Element) -> Bool
 
-    @usableFromInline
+    
     init(base: Base.AsyncIterator, grouping: @escaping @Sendable (Base.Element, Base.Element) -> Bool) {
       self.base = base
       self.grouping = grouping
     }
 
-    @usableFromInline
+    
     var hangingNext: Base.Element?
 
-    @inlinable
+    
     public mutating func next() async rethrows -> Collected? {
       var firstOpt = hangingNext
       if firstOpt == nil {
@@ -107,19 +107,19 @@ where Collected.Element == Base.Element {
     }
   }
 
-  @usableFromInline
+  
   let base: Base
 
-  @usableFromInline
+  
   let grouping: @Sendable (Base.Element, Base.Element) -> Bool
 
-  @usableFromInline
+  
   init(_ base: Base, grouping: @escaping @Sendable (Base.Element, Base.Element) -> Bool) {
     self.base = base
     self.grouping = grouping
   }
 
-  @inlinable
+  
   public func makeAsyncIterator() -> Iterator {
     Iterator(base: base.makeAsyncIterator(), grouping: grouping)
   }

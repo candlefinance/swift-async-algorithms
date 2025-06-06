@@ -15,7 +15,7 @@ extension Sequence {
   /// but on which operations, such as `map` and `filter`, are
   /// implemented asynchronously.
   @available(AsyncAlgorithms 1.0, *)
-  @inlinable
+  
   public var async: AsyncSyncSequence<Self> {
     AsyncSyncSequence(self)
   }
@@ -36,15 +36,15 @@ public struct AsyncSyncSequence<Base: Sequence>: AsyncSequence {
 
   @frozen
   public struct Iterator: AsyncIteratorProtocol {
-    @usableFromInline
+    
     var iterator: Base.Iterator?
 
-    @usableFromInline
+    
     init(_ iterator: Base.Iterator) {
       self.iterator = iterator
     }
 
-    @inlinable
+    
     public mutating func next() async -> Base.Element? {
       guard !Task.isCancelled, let value = iterator?.next() else {
         iterator = nil
@@ -54,15 +54,15 @@ public struct AsyncSyncSequence<Base: Sequence>: AsyncSequence {
     }
   }
 
-  @usableFromInline
+  
   let base: Base
 
-  @usableFromInline
+  
   init(_ base: Base) {
     self.base = base
   }
 
-  @inlinable
+  
   public func makeAsyncIterator() -> Iterator {
     Iterator(base.makeIterator())
   }

@@ -32,7 +32,7 @@ extension AsyncSequence {
   ///   - separator: The value to insert in between each of this async sequence’s elements.
   /// - Returns: The interspersed asynchronous sequence of elements.
   @available(AsyncAlgorithms 1.0, *)
-  @inlinable
+  
   public func interspersed(every: Int = 1, with separator: Element) -> AsyncInterspersedSequence<Self> {
     AsyncInterspersedSequence(self, every: every, separator: separator)
   }
@@ -58,7 +58,7 @@ extension AsyncSequence {
   ///   - separator: A closure that produces the value to insert in between each of this async sequence’s elements.
   /// - Returns: The interspersed asynchronous sequence of elements.
   @available(AsyncAlgorithms 1.0, *)
-  @inlinable
+  
   public func interspersed(
     every: Int = 1,
     with separator: @Sendable @escaping () -> Element
@@ -87,7 +87,7 @@ extension AsyncSequence {
   ///   - separator: A closure that produces the value to insert in between each of this async sequence’s elements.
   /// - Returns: The interspersed asynchronous sequence of elements.
   @available(AsyncAlgorithms 1.0, *)
-  @inlinable
+  
   public func interspersed(
     every: Int = 1,
     with separator: @Sendable @escaping () async -> Element
@@ -116,7 +116,7 @@ extension AsyncSequence {
   ///   - separator: A closure that produces the value to insert in between each of this async sequence’s elements.
   /// - Returns: The interspersed asynchronous sequence of elements.
   @available(AsyncAlgorithms 1.0, *)
-  @inlinable
+  
   public func interspersed(
     every: Int = 1,
     with separator: @Sendable @escaping () throws -> Element
@@ -145,7 +145,7 @@ extension AsyncSequence {
   ///   - separator: A closure that produces the value to insert in between each of this async sequence’s elements.
   /// - Returns: The interspersed asynchronous sequence of elements.
   @available(AsyncAlgorithms 1.0, *)
-  @inlinable
+  
   public func interspersed(
     every: Int = 1,
     with separator: @Sendable @escaping () async throws -> Element
@@ -158,23 +158,23 @@ extension AsyncSequence {
 /// elements with a separator between each of those elements.
 @available(AsyncAlgorithms 1.0, *)
 public struct AsyncInterspersedSequence<Base: AsyncSequence> {
-  @usableFromInline
+  
   internal enum Separator {
     case element(Element)
     case syncClosure(@Sendable () -> Element)
     case asyncClosure(@Sendable () async -> Element)
   }
 
-  @usableFromInline
+  
   internal let base: Base
 
-  @usableFromInline
+  
   internal let separator: Separator
 
-  @usableFromInline
+  
   internal let every: Int
 
-  @usableFromInline
+  
   internal init(_ base: Base, every: Int, separator: Element) {
     precondition(every > 0, "Separators can only be interspersed every 1+ elements")
     self.base = base
@@ -182,7 +182,7 @@ public struct AsyncInterspersedSequence<Base: AsyncSequence> {
     self.every = every
   }
 
-  @usableFromInline
+  
   internal init(_ base: Base, every: Int, separator: @Sendable @escaping () -> Element) {
     precondition(every > 0, "Separators can only be interspersed every 1+ elements")
     self.base = base
@@ -190,7 +190,7 @@ public struct AsyncInterspersedSequence<Base: AsyncSequence> {
     self.every = every
   }
 
-  @usableFromInline
+  
   internal init(_ base: Base, every: Int, separator: @Sendable @escaping () async -> Element) {
     precondition(every > 0, "Separators can only be interspersed every 1+ elements")
     self.base = base
@@ -206,7 +206,7 @@ extension AsyncInterspersedSequence: AsyncSequence {
   /// The iterator for an `AsyncInterspersedSequence` asynchronous sequence.
   @available(AsyncAlgorithms 1.0, *)
   public struct Iterator: AsyncIteratorProtocol {
-    @usableFromInline
+    
     internal enum State {
       case start(Element?)
       case element(Int)
@@ -214,19 +214,19 @@ extension AsyncInterspersedSequence: AsyncSequence {
       case finished
     }
 
-    @usableFromInline
+    
     internal var iterator: Base.AsyncIterator
 
-    @usableFromInline
+    
     internal let separator: Separator
 
-    @usableFromInline
+    
     internal let every: Int
 
-    @usableFromInline
+    
     internal var state = State.start(nil)
 
-    @usableFromInline
+    
     internal init(_ iterator: Base.AsyncIterator, every: Int, separator: Separator) {
       self.iterator = iterator
       self.separator = separator
@@ -303,7 +303,7 @@ extension AsyncInterspersedSequence: AsyncSequence {
   }
 
   @available(AsyncAlgorithms 1.0, *)
-  @inlinable
+  
   public func makeAsyncIterator() -> Iterator {
     Iterator(self.base.makeAsyncIterator(), every: self.every, separator: self.separator)
   }
@@ -313,22 +313,22 @@ extension AsyncInterspersedSequence: AsyncSequence {
 /// elements with a separator between each of those elements.
 @available(AsyncAlgorithms 1.0, *)
 public struct AsyncThrowingInterspersedSequence<Base: AsyncSequence> {
-  @usableFromInline
+  
   internal enum Separator {
     case syncClosure(@Sendable () throws -> Element)
     case asyncClosure(@Sendable () async throws -> Element)
   }
 
-  @usableFromInline
+  
   internal let base: Base
 
-  @usableFromInline
+  
   internal let separator: Separator
 
-  @usableFromInline
+  
   internal let every: Int
 
-  @usableFromInline
+  
   internal init(_ base: Base, every: Int, separator: @Sendable @escaping () throws -> Element) {
     precondition(every > 0, "Separators can only be interspersed every 1+ elements")
     self.base = base
@@ -336,7 +336,7 @@ public struct AsyncThrowingInterspersedSequence<Base: AsyncSequence> {
     self.every = every
   }
 
-  @usableFromInline
+  
   internal init(_ base: Base, every: Int, separator: @Sendable @escaping () async throws -> Element) {
     precondition(every > 0, "Separators can only be interspersed every 1+ elements")
     self.base = base
@@ -352,7 +352,7 @@ extension AsyncThrowingInterspersedSequence: AsyncSequence {
   /// The iterator for an `AsyncInterspersedSequence` asynchronous sequence.
   @available(AsyncAlgorithms 1.0, *)
   public struct Iterator: AsyncIteratorProtocol {
-    @usableFromInline
+    
     internal enum State {
       case start(Element?)
       case element(Int)
@@ -360,19 +360,19 @@ extension AsyncThrowingInterspersedSequence: AsyncSequence {
       case finished
     }
 
-    @usableFromInline
+    
     internal var iterator: Base.AsyncIterator
 
-    @usableFromInline
+    
     internal let separator: Separator
 
-    @usableFromInline
+    
     internal let every: Int
 
-    @usableFromInline
+    
     internal var state = State.start(nil)
 
-    @usableFromInline
+    
     internal init(_ iterator: Base.AsyncIterator, every: Int, separator: Separator) {
       self.iterator = iterator
       self.separator = separator
@@ -446,7 +446,7 @@ extension AsyncThrowingInterspersedSequence: AsyncSequence {
   }
 
   @available(AsyncAlgorithms 1.0, *)
-  @inlinable
+  
   public func makeAsyncIterator() -> Iterator {
     Iterator(self.base.makeAsyncIterator(), every: self.every, separator: self.separator)
   }

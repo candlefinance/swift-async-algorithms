@@ -25,7 +25,7 @@ extension AsyncSequence {
   /// - Returns: An asynchronous sequence of the initial value followed by the reduced
   ///   elements.
   @available(AsyncAlgorithms 1.0, *)
-  @inlinable
+  
   public func reductions<Result>(
     _ initial: Result,
     _ transform: @Sendable @escaping (Result, Element) async throws -> Result
@@ -50,7 +50,7 @@ extension AsyncSequence {
   /// - Returns: An asynchronous sequence of the initial value followed by the reduced
   ///   elements.
   @available(AsyncAlgorithms 1.0, *)
-  @inlinable
+  
   public func reductions<Result>(
     into initial: Result,
     _ transform: @Sendable @escaping (inout Result, Element) async throws -> Void
@@ -64,16 +64,16 @@ extension AsyncSequence {
 @available(AsyncAlgorithms 1.0, *)
 @frozen
 public struct AsyncThrowingExclusiveReductionsSequence<Base: AsyncSequence, Element> {
-  @usableFromInline
+  
   let base: Base
 
-  @usableFromInline
+  
   let initial: Element
 
-  @usableFromInline
+  
   let transform: @Sendable (inout Element, Base.Element) async throws -> Void
 
-  @inlinable
+  
   init(
     _ base: Base,
     initial: Element,
@@ -91,16 +91,16 @@ extension AsyncThrowingExclusiveReductionsSequence: AsyncSequence {
   @available(AsyncAlgorithms 1.0, *)
   @frozen
   public struct Iterator: AsyncIteratorProtocol {
-    @usableFromInline
+    
     var iterator: Base.AsyncIterator
 
-    @usableFromInline
+    
     var current: Element?
 
-    @usableFromInline
+    
     let transform: @Sendable (inout Element, Base.Element) async throws -> Void
 
-    @inlinable
+    
     init(
       _ iterator: Base.AsyncIterator,
       initial: Element,
@@ -111,7 +111,7 @@ extension AsyncThrowingExclusiveReductionsSequence: AsyncSequence {
       self.transform = transform
     }
 
-    @inlinable
+    
     public mutating func next() async throws -> Element? {
       guard var result = current else { return nil }
       let value = try await iterator.next()
@@ -131,7 +131,7 @@ extension AsyncThrowingExclusiveReductionsSequence: AsyncSequence {
   }
 
   @available(AsyncAlgorithms 1.0, *)
-  @inlinable
+  
   public func makeAsyncIterator() -> Iterator {
     Iterator(base.makeAsyncIterator(), initial: initial, transform: transform)
   }

@@ -14,7 +14,7 @@ import AsyncAlgorithms
 
 @_silgen_name("swift_job_run")
 @available(AsyncAlgorithms 1.0, *)
-@usableFromInline
+
 internal func _swiftJobRun(
   _ job: UnownedJob,
   _ executor: UnownedSerialExecutor

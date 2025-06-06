@@ -20,7 +20,7 @@ extension AsyncSequence {
   ///   element and iterates over every non-nil element from the original
   ///   `AsyncSequence`.
   @available(AsyncAlgorithms 1.0, *)
-  @inlinable
+  
   public func compacted<Unwrapped>() -> AsyncCompactedSequence<Self, Unwrapped>
   where Element == Unwrapped? {
     AsyncCompactedSequence(self)
@@ -34,10 +34,10 @@ extension AsyncSequence {
 public struct AsyncCompactedSequence<Base: AsyncSequence, Element>: AsyncSequence
 where Base.Element == Element? {
 
-  @usableFromInline
+  
   let base: Base
 
-  @inlinable
+  
   init(_ base: Base) {
     self.base = base
   }
@@ -45,15 +45,15 @@ where Base.Element == Element? {
   /// The iterator for an `AsyncCompactedSequence` instance.
   @frozen
   public struct Iterator: AsyncIteratorProtocol {
-    @usableFromInline
+    
     var base: Base.AsyncIterator
 
-    @inlinable
+    
     init(_ base: Base.AsyncIterator) {
       self.base = base
     }
 
-    @inlinable
+    
     public mutating func next() async rethrows -> Element? {
       while let wrapped = try await base.next() {
         guard let some = wrapped else { continue }
@@ -63,7 +63,7 @@ where Base.Element == Element? {
     }
   }
 
-  @inlinable
+  
   public func makeAsyncIterator() -> Iterator {
     Iterator(base.makeAsyncIterator())
   }

@@ -13,7 +13,7 @@
 extension AsyncSequence where Element: AsyncSequence {
   /// Concatenate an `AsyncSequence` of `AsyncSequence` elements
   @available(AsyncAlgorithms 1.0, *)
-  @inlinable
+  
   public func joined() -> AsyncJoinedSequence<Self> {
     return AsyncJoinedSequence(self)
   }
@@ -29,22 +29,22 @@ public struct AsyncJoinedSequence<Base: AsyncSequence>: AsyncSequence where Base
   /// The iterator for an `AsyncJoinedSequence` instance.
   @frozen
   public struct Iterator: AsyncIteratorProtocol {
-    @usableFromInline
-    enum State {
+    
+    public enum State {
       case initial(Base.AsyncIterator)
       case sequence(Base.AsyncIterator, Base.Element.AsyncIterator)
       case terminal
     }
 
-    @usableFromInline
-    var state: State
+    
+    public var state: State
 
-    @inlinable
+    
     init(_ iterator: Base.AsyncIterator) {
       state = .initial(iterator)
     }
 
-    @inlinable
+    
     public mutating func next() async rethrows -> Base.Element.Element? {
       do {
         switch state {
@@ -79,15 +79,15 @@ public struct AsyncJoinedSequence<Base: AsyncSequence>: AsyncSequence where Base
     }
   }
 
-  @usableFromInline
+  
   let base: Base
 
-  @usableFromInline
+  
   init(_ base: Base) {
     self.base = base
   }
 
-  @inlinable
+  
   public func makeAsyncIterator() -> Iterator {
     return Iterator(base.makeAsyncIterator())
   }

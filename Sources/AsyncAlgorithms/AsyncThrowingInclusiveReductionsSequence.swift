@@ -29,7 +29,7 @@ extension AsyncSequence {
   ///     throws an error, the sequence throws.
   /// - Returns: An asynchronous sequence of the reduced elements.
   @available(AsyncAlgorithms 1.0, *)
-  @inlinable
+  
   public func reductions(
     _ transform: @Sendable @escaping (Element, Element) async throws -> Element
   ) -> AsyncThrowingInclusiveReductionsSequence<Self> {
@@ -42,13 +42,13 @@ extension AsyncSequence {
 @available(AsyncAlgorithms 1.0, *)
 @frozen
 public struct AsyncThrowingInclusiveReductionsSequence<Base: AsyncSequence> {
-  @usableFromInline
+  
   let base: Base
 
-  @usableFromInline
+  
   let transform: @Sendable (Base.Element, Base.Element) async throws -> Base.Element
 
-  @inlinable
+  
   init(_ base: Base, transform: @Sendable @escaping (Base.Element, Base.Element) async throws -> Base.Element) {
     self.base = base
     self.transform = transform
@@ -63,16 +63,16 @@ extension AsyncThrowingInclusiveReductionsSequence: AsyncSequence {
   @available(AsyncAlgorithms 1.0, *)
   @frozen
   public struct Iterator: AsyncIteratorProtocol {
-    @usableFromInline
+    
     internal var iterator: Base.AsyncIterator?
 
-    @usableFromInline
+    
     internal var element: Base.Element?
 
-    @usableFromInline
+    
     internal let transform: @Sendable (Base.Element, Base.Element) async throws -> Base.Element
 
-    @inlinable
+    
     init(
       _ iterator: Base.AsyncIterator,
       transform: @Sendable @escaping (Base.Element, Base.Element) async throws -> Base.Element
@@ -81,7 +81,7 @@ extension AsyncThrowingInclusiveReductionsSequence: AsyncSequence {
       self.transform = transform
     }
 
-    @inlinable
+    
     public mutating func next() async throws -> Base.Element? {
       guard let previous = element else {
         element = try await iterator?.next()
@@ -99,7 +99,7 @@ extension AsyncThrowingInclusiveReductionsSequence: AsyncSequence {
   }
 
   @available(AsyncAlgorithms 1.0, *)
-  @inlinable
+  
   public func makeAsyncIterator() -> Iterator {
     Iterator(base.makeAsyncIterator(), transform: transform)
   }

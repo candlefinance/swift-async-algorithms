@@ -13,7 +13,7 @@
 extension AsyncSequence {
   /// Creates an asynchronous sequence that creates chunks of a given `RangeReplaceableCollection` type on the uniqueness of a given subject.
   @available(AsyncAlgorithms 1.0, *)
-  @inlinable
+  
   public func chunked<Subject: Equatable, Collected: RangeReplaceableCollection>(
     into: Collected.Type,
     on projection: @escaping @Sendable (Element) -> Subject
@@ -23,7 +23,7 @@ extension AsyncSequence {
 
   /// Creates an asynchronous sequence that creates chunks on the uniqueness of a given subject.
   @available(AsyncAlgorithms 1.0, *)
-  @inlinable
+  
   public func chunked<Subject: Equatable>(
     on projection: @escaping @Sendable (Element) -> Subject
   ) -> AsyncChunkedOnProjectionSequence<Self, Subject, [Element]> {
@@ -44,22 +44,22 @@ public struct AsyncChunkedOnProjectionSequence<
   @frozen
   public struct Iterator: AsyncIteratorProtocol {
 
-    @usableFromInline
+    
     var base: Base.AsyncIterator
 
-    @usableFromInline
+    
     let projection: @Sendable (Base.Element) -> Subject
 
-    @usableFromInline
+    
     init(base: Base.AsyncIterator, projection: @escaping @Sendable (Base.Element) -> Subject) {
       self.base = base
       self.projection = projection
     }
 
-    @usableFromInline
+    
     var hangingNext: (Subject, Base.Element)?
 
-    @inlinable
+    
     public mutating func next() async rethrows -> (Subject, Collected)? {
       var firstOpt = hangingNext
       if firstOpt == nil {
@@ -90,19 +90,19 @@ public struct AsyncChunkedOnProjectionSequence<
     }
   }
 
-  @usableFromInline
+  
   let base: Base
 
-  @usableFromInline
+  
   let projection: @Sendable (Base.Element) -> Subject
 
-  @usableFromInline
+  
   init(_ base: Base, projection: @escaping @Sendable (Base.Element) -> Subject) {
     self.base = base
     self.projection = projection
   }
 
-  @inlinable
+  
   public func makeAsyncIterator() -> Iterator {
     Iterator(base: base.makeAsyncIterator(), projection: projection)
   }

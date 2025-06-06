@@ -13,7 +13,7 @@
 extension AsyncSequence {
   /// Creates an asynchronous sequence that creates chunks of a given `RangeReplaceableCollection` of a given count.
   @available(AsyncAlgorithms 1.0, *)
-  @inlinable
+  
   public func chunks<Collected: RangeReplaceableCollection>(
     ofCount count: Int,
     into: Collected.Type
@@ -23,7 +23,7 @@ extension AsyncSequence {
 
   /// Creates an asynchronous sequence that creates chunks of a given count.
   @available(AsyncAlgorithms 1.0, *)
-  @inlinable
+  
   public func chunks(ofCount count: Int) -> AsyncChunksOfCountSequence<Self, [Element]> {
     chunks(ofCount: count, into: [Element].self)
   }
@@ -39,19 +39,19 @@ where Collected.Element == Base.Element {
   @frozen
   public struct Iterator: AsyncIteratorProtocol {
 
-    @usableFromInline
+    
     var base: Base.AsyncIterator
 
-    @usableFromInline
+    
     let count: Int
 
-    @usableFromInline
+    
     init(base: Base.AsyncIterator, count: Int) {
       self.base = base
       self.count = count
     }
 
-    @inlinable
+    
     public mutating func next() async rethrows -> Collected? {
       guard let first = try await base.next() else {
         return nil
@@ -74,20 +74,20 @@ where Collected.Element == Base.Element {
     }
   }
 
-  @usableFromInline
+  
   let base: Base
 
-  @usableFromInline
+  
   let count: Int
 
-  @usableFromInline
+  
   init(_ base: Base, count: Int) {
     precondition(count > 0)
     self.base = base
     self.count = count
   }
 
-  @inlinable
+  
   public func makeAsyncIterator() -> Iterator {
     Iterator(base: base.makeAsyncIterator(), count: count)
   }

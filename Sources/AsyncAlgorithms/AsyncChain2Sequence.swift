@@ -18,7 +18,7 @@
 /// - Returns: An asynchronous sequence that iterates first over the elements of `s1`, and
 ///   then over the elements of `s2`.
 @available(AsyncAlgorithms 1.0, *)
-@inlinable
+
 public func chain<Base1: AsyncSequence, Base2: AsyncSequence>(
   _ s1: Base1,
   _ s2: Base2
@@ -30,13 +30,13 @@ public func chain<Base1: AsyncSequence, Base2: AsyncSequence>(
 @available(AsyncAlgorithms 1.0, *)
 @frozen
 public struct AsyncChain2Sequence<Base1: AsyncSequence, Base2: AsyncSequence> where Base1.Element == Base2.Element {
-  @usableFromInline
+  
   let base1: Base1
 
-  @usableFromInline
+  
   let base2: Base2
 
-  @usableFromInline
+  
   init(_ base1: Base1, _ base2: Base2) {
     self.base1 = base1
     self.base2 = base2
@@ -51,19 +51,19 @@ extension AsyncChain2Sequence: AsyncSequence {
   @available(AsyncAlgorithms 1.0, *)
   @frozen
   public struct Iterator: AsyncIteratorProtocol {
-    @usableFromInline
+    
     var base1: Base1.AsyncIterator?
 
-    @usableFromInline
+    
     var base2: Base2.AsyncIterator?
 
-    @usableFromInline
+    
     init(_ base1: Base1.AsyncIterator, _ base2: Base2.AsyncIterator) {
       self.base1 = base1
       self.base2 = base2
     }
 
-    @inlinable
+    
     public mutating func next() async rethrows -> Element? {
       do {
         if let value = try await base1?.next() {
@@ -81,7 +81,7 @@ extension AsyncChain2Sequence: AsyncSequence {
   }
 
   @available(AsyncAlgorithms 1.0, *)
-  @inlinable
+  
   public func makeAsyncIterator() -> Iterator {
     Iterator(base1.makeAsyncIterator(), base2.makeAsyncIterator())
   }

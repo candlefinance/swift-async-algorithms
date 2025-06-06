@@ -47,22 +47,22 @@ public struct AsyncRemoveDuplicatesSequence<Base: AsyncSequence>: AsyncSequence 
   /// The iterator for an `AsyncRemoveDuplicatesSequence` instance.
   public struct Iterator: AsyncIteratorProtocol {
 
-    @usableFromInline
+    
     var iterator: Base.AsyncIterator
 
-    @usableFromInline
+    
     let predicate: @Sendable (Element, Element) async -> Bool
 
-    @usableFromInline
+    
     var last: Element?
 
-    @usableFromInline
+    
     init(iterator: Base.AsyncIterator, predicate: @escaping @Sendable (Element, Element) async -> Bool) {
       self.iterator = iterator
       self.predicate = predicate
     }
 
-    @inlinable
+    
     public mutating func next() async rethrows -> Element? {
       guard let last = last else {
         last = try await iterator.next()
@@ -78,10 +78,10 @@ public struct AsyncRemoveDuplicatesSequence<Base: AsyncSequence>: AsyncSequence 
     }
   }
 
-  @usableFromInline
+  
   let base: Base
 
-  @usableFromInline
+  
   let predicate: @Sendable (Element, Element) async -> Bool
 
   init(_ base: Base, predicate: @escaping @Sendable (Element, Element) async -> Bool) {
@@ -89,7 +89,7 @@ public struct AsyncRemoveDuplicatesSequence<Base: AsyncSequence>: AsyncSequence 
     self.predicate = predicate
   }
 
-  @inlinable
+  
   public func makeAsyncIterator() -> Iterator {
     Iterator(iterator: base.makeAsyncIterator(), predicate: predicate)
   }
@@ -103,22 +103,22 @@ public struct AsyncThrowingRemoveDuplicatesSequence<Base: AsyncSequence>: AsyncS
   /// The iterator for an `AsyncThrowingRemoveDuplicatesSequence` instance.
   public struct Iterator: AsyncIteratorProtocol {
 
-    @usableFromInline
+    
     var iterator: Base.AsyncIterator
 
-    @usableFromInline
+    
     let predicate: @Sendable (Element, Element) async throws -> Bool
 
-    @usableFromInline
+    
     var last: Element?
 
-    @usableFromInline
+    
     init(iterator: Base.AsyncIterator, predicate: @escaping @Sendable (Element, Element) async throws -> Bool) {
       self.iterator = iterator
       self.predicate = predicate
     }
 
-    @inlinable
+    
     public mutating func next() async throws -> Element? {
       guard let last = last else {
         last = try await iterator.next()
@@ -134,10 +134,10 @@ public struct AsyncThrowingRemoveDuplicatesSequence<Base: AsyncSequence>: AsyncS
     }
   }
 
-  @usableFromInline
+  
   let base: Base
 
-  @usableFromInline
+  
   let predicate: @Sendable (Element, Element) async throws -> Bool
 
   init(_ base: Base, predicate: @escaping @Sendable (Element, Element) async throws -> Bool) {
@@ -145,7 +145,7 @@ public struct AsyncThrowingRemoveDuplicatesSequence<Base: AsyncSequence>: AsyncS
     self.predicate = predicate
   }
 
-  @inlinable
+  
   public func makeAsyncIterator() -> Iterator {
     Iterator(iterator: base.makeAsyncIterator(), predicate: predicate)
   }
