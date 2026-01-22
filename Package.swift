@@ -34,7 +34,7 @@ let availabilityMacros: [SwiftSetting] = versionNumbers.flatMap { version in
 }
 
 let package = Package(
-  name: "swift-async-algorithms",
+  name: "candle-swift-async-algorithms",
   products: [
     .library(name: "CandleAsyncAlgorithms", targets: ["CandleAsyncAlgorithms"])
   ],
