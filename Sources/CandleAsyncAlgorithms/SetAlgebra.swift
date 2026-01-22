@@ -9,17 +9,18 @@
 //
 //===----------------------------------------------------------------------===//
 
-import _CAsyncSequenceValidationSupport
-
 @available(CandleAsyncAlgorithms 1.0, *)
-struct Job: Hashable, @unchecked Sendable {
-  let job: JobRef
-
-  init(_ job: JobRef) {
-    self.job = job
-  }
-
-  func execute() {
-    _swiftJobRun(unsafeBitCast(job, to: UnownedJob.self), AsyncSequenceValidationDiagram.Context.unownedExecutor)
+extension SetAlgebra {
+  /// Creates a new set from an asynchronous sequence of items.
+  ///
+  /// Use this initializer to create a new set from an asynchronous sequence
+  ///
+  /// - Parameter source: The elements to use as members of the new set.
+  @inlinable
+  public init<Source: AsyncSequence>(_ source: Source) async rethrows where Source.Element == Element {
+    self.init()
+    for try await item in source {
+      insert(item)
+    }
   }
 }

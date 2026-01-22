@@ -4,7 +4,7 @@ import PackageDescription
 import CompilerPluginSupport
 
 // Availability Macros
-let availabilityTags = [Availability("AsyncAlgorithms")]
+let availabilityTags = [Availability("CandleAsyncAlgorithms")]
 let versionNumbers = ["1.0"]
 
 // Availability Macro Utilities
@@ -36,14 +36,14 @@ let availabilityMacros: [SwiftSetting] = versionNumbers.flatMap { version in
 let package = Package(
   name: "swift-async-algorithms",
   products: [
-    .library(name: "AsyncAlgorithms", targets: ["AsyncAlgorithms"])
+    .library(name: "CandleAsyncAlgorithms", targets: ["CandleAsyncAlgorithms"])
   ],
   targets: [
     .target(
-      name: "AsyncAlgorithms",
+      name: "CandleAsyncAlgorithms",
       dependencies: [
-        .product(name: "OrderedCollections", package: "swift-collections"),
-        .product(name: "DequeModule", package: "swift-collections"),
+        .product(name: "CandleOrderedCollections", package: "swift-collections"),
+        .product(name: "CandleDequeModule", package: "swift-collections"),
       ],
       swiftSettings: availabilityMacros + [
         .enableExperimentalFeature("StrictConcurrency=complete")
@@ -51,7 +51,7 @@ let package = Package(
     ),
     .target(
       name: "AsyncSequenceValidation",
-      dependencies: ["_CAsyncSequenceValidationSupport", "AsyncAlgorithms"],
+      dependencies: ["_CAsyncSequenceValidationSupport", "CandleAsyncAlgorithms"],
       swiftSettings: availabilityMacros + [
         .enableExperimentalFeature("StrictConcurrency=complete")
       ]
@@ -59,14 +59,14 @@ let package = Package(
     .systemLibrary(name: "_CAsyncSequenceValidationSupport"),
     .target(
       name: "AsyncAlgorithms_XCTest",
-      dependencies: ["AsyncAlgorithms", "AsyncSequenceValidation"],
+      dependencies: ["CandleAsyncAlgorithms", "AsyncSequenceValidation"],
       swiftSettings: availabilityMacros + [
         .enableExperimentalFeature("StrictConcurrency=complete")
       ]
     ),
     .testTarget(
       name: "AsyncAlgorithmsTests",
-      dependencies: ["AsyncAlgorithms", "AsyncSequenceValidation", "AsyncAlgorithms_XCTest"],
+      dependencies: ["CandleAsyncAlgorithms", "AsyncSequenceValidation", "AsyncAlgorithms_XCTest"],
       swiftSettings: availabilityMacros + [
         .enableExperimentalFeature("StrictConcurrency=complete")
       ]

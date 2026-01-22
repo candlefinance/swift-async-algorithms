@@ -9,7 +9,7 @@
 //
 //===----------------------------------------------------------------------===//
 
-@available(AsyncAlgorithms 1.0, *)
+@available(CandleAsyncAlgorithms 1.0, *)
 extension AsyncSequenceValidationDiagram {
   public struct Specification: Sendable {
     public let specification: String

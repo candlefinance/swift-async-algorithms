@@ -10,17 +10,17 @@
 //===----------------------------------------------------------------------===//
 
 import _CAsyncSequenceValidationSupport
-import AsyncAlgorithms
+import CandleAsyncAlgorithms
 
 @_silgen_name("swift_job_run")
-@available(AsyncAlgorithms 1.0, *)
+@available(CandleAsyncAlgorithms 1.0, *)
 @usableFromInline
 internal func _swiftJobRun(
   _ job: UnownedJob,
   _ executor: UnownedSerialExecutor
 )
 
-@available(AsyncAlgorithms 1.0, *)
+@available(CandleAsyncAlgorithms 1.0, *)
 public protocol AsyncSequenceValidationTest: Sendable {
   var inputs: [AsyncSequenceValidationDiagram.Specification] { get }
   var output: AsyncSequenceValidationDiagram.Specification { get }
@@ -33,7 +33,7 @@ public protocol AsyncSequenceValidationTest: Sendable {
   ) async throws
 }
 
-@available(AsyncAlgorithms 1.0, *)
+@available(CandleAsyncAlgorithms 1.0, *)
 extension AsyncSequenceValidationDiagram {
   struct Test<Operation: AsyncSequence>: AsyncSequenceValidationTest, @unchecked Sendable
   where Operation.Element == String {

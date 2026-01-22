@@ -9,7 +9,7 @@
 //
 //===----------------------------------------------------------------------===//
 
-@available(AsyncAlgorithms 1.0, *)
+@available(CandleAsyncAlgorithms 1.0, *)
 struct WorkQueue: Sendable {
   enum Item: CustomStringConvertible, Comparable {
     case blocked(Token, AsyncSequenceValidationDiagram.Clock.Instant, UnsafeContinuation<Void, Error>)

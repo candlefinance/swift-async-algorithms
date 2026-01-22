@@ -11,7 +11,7 @@ let package = Package(
     .watchOS("6.0"),
   ],
   products: [
-    .library(name: "AsyncAlgorithms", targets: ["AsyncAlgorithms"]),
+    .library(name: "CandleAsyncAlgorithms", targets: ["CandleAsyncAlgorithms"]),
     .library(name: "AsyncSequenceValidation", targets: ["AsyncSequenceValidation"]),
     .library(name: "_CAsyncSequenceValidationSupport", type: .static, targets: ["AsyncSequenceValidation"]),
     .library(name: "AsyncAlgorithms_XCTest", targets: ["AsyncAlgorithms_XCTest"]),
@@ -22,21 +22,21 @@ let package = Package(
   ],
   targets: [
     .target(
-      name: "AsyncAlgorithms",
+      name: "CandleAsyncAlgorithms",
       dependencies: [.product(name: "Collections", package: "swift-collections")]
     ),
     .target(
       name: "AsyncSequenceValidation",
-      dependencies: ["_CAsyncSequenceValidationSupport", "AsyncAlgorithms"]
+      dependencies: ["_CAsyncSequenceValidationSupport", "CandleAsyncAlgorithms"]
     ),
     .systemLibrary(name: "_CAsyncSequenceValidationSupport"),
     .target(
       name: "AsyncAlgorithms_XCTest",
-      dependencies: ["AsyncAlgorithms", "AsyncSequenceValidation"]
+      dependencies: ["CandleAsyncAlgorithms", "AsyncSequenceValidation"]
     ),
     .testTarget(
       name: "AsyncAlgorithmsTests",
-      dependencies: ["AsyncAlgorithms", "AsyncSequenceValidation", "AsyncAlgorithms_XCTest"]
+      dependencies: ["CandleAsyncAlgorithms", "AsyncSequenceValidation", "AsyncAlgorithms_XCTest"]
     ),
   ]
 )

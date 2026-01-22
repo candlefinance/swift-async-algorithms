@@ -10,7 +10,7 @@
 //===----------------------------------------------------------------------===//
 
 import XCTest
-import AsyncAlgorithms
+import CandleAsyncAlgorithms
 import AsyncSequenceValidation
 
 extension XCTestCase {
@@ -33,7 +33,7 @@ extension XCTestCase {
     #endif
   }
 
-  @available(AsyncAlgorithms 1.0, *)
+  @available(CandleAsyncAlgorithms 1.0, *)
   func validate<Test: AsyncSequenceValidationTest, Theme: AsyncSequenceValidationTheme>(
     theme: Theme,
     expectedFailures: Set<String>,
@@ -78,7 +78,7 @@ extension XCTestCase {
     }
   }
 
-  @available(AsyncAlgorithms 1.0, *)
+  @available(CandleAsyncAlgorithms 1.0, *)
   func validate<Test: AsyncSequenceValidationTest>(
     expectedFailures: Set<String>,
     @AsyncSequenceValidationDiagram _ build: (AsyncSequenceValidationDiagram) -> Test,
@@ -88,7 +88,7 @@ extension XCTestCase {
     validate(theme: .ascii, expectedFailures: expectedFailures, build, file: file, line: line)
   }
 
-  @available(AsyncAlgorithms 1.0, *)
+  @available(CandleAsyncAlgorithms 1.0, *)
   public func validate<Test: AsyncSequenceValidationTest, Theme: AsyncSequenceValidationTheme>(
     theme: Theme,
     @AsyncSequenceValidationDiagram _ build: (AsyncSequenceValidationDiagram) -> Test,
@@ -98,7 +98,7 @@ extension XCTestCase {
     validate(theme: theme, expectedFailures: [], build, file: file, line: line)
   }
 
-  @available(AsyncAlgorithms 1.0, *)
+  @available(CandleAsyncAlgorithms 1.0, *)
   public func validate<Test: AsyncSequenceValidationTest>(
     @AsyncSequenceValidationDiagram _ build: (AsyncSequenceValidationDiagram) -> Test,
     file: StaticString = #file,
