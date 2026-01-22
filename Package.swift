@@ -76,11 +76,11 @@ let package = Package(
 
 if Context.environment["SWIFTCI_USE_LOCAL_DEPS"] == nil {
   package.dependencies += [
-    .package(name: "candle-swift-collections", url: "https://github.com/candlefinance/candle-swift-collections.git", branch: "fix-candle-1.1.4"),
+    .package(url: "https://github.com/candlefinance/candle-swift-collections.git", branch: "fix-candle-1.1.4"),
     .package(url: "https://github.com/apple/swift-docc-plugin", from: "1.0.0"),
   ]
 } else {
   package.dependencies += [
-    .package(name: "candle-swift-collections", path: "../swift-collections")
+    .package(path: "../swift-collections")
   ]
 }
