@@ -34,7 +34,7 @@ let availabilityMacros: [SwiftSetting] = versionNumbers.flatMap { version in
 }
 
 let package = Package(
-  name: "candle-swift-async-algorithms",
+  name: "swift-async-algorithms",
   products: [
     .library(name: "CandleAsyncAlgorithms", targets: ["CandleAsyncAlgorithms"])
   ],
@@ -42,8 +42,8 @@ let package = Package(
     .target(
       name: "CandleAsyncAlgorithms",
       dependencies: [
-        .product(name: "CandleOrderedCollections", package: "candle-swift-collections"),
-        .product(name: "CandleDequeModule", package: "candle-swift-collections"),
+        .product(name: "CandleOrderedCollections", package: "swift-collections"),
+        .product(name: "CandleDequeModule", package: "swift-collections"),
       ],
       swiftSettings: availabilityMacros + [
         .enableExperimentalFeature("StrictConcurrency=complete")
