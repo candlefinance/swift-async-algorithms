@@ -42,8 +42,8 @@ let package = Package(
     .target(
       name: "CandleAsyncAlgorithms",
       dependencies: [
-        .product(name: "CandleOrderedCollections", package: "swift-collections"),
-        .product(name: "CandleDequeModule", package: "swift-collections"),
+        .product(name: "CandleOrderedCollections", package: "candle-swift-collections"),
+        .product(name: "CandleDequeModule", package: "candle-swift-collections"),
       ],
       swiftSettings: availabilityMacros + [
         .enableExperimentalFeature("StrictConcurrency=complete")
@@ -76,11 +76,11 @@ let package = Package(
 
 if Context.environment["SWIFTCI_USE_LOCAL_DEPS"] == nil {
   package.dependencies += [
-    .package(url: "https://github.com/candlefinance/swift-collections.git", branch: "fix-candle-1.1.4"),
+    .package(url: "https://github.com/candlefinance/swift-collections.git", name: "candle-swift-collections", branch: "fix-candle-1.1.4"),
     .package(url: "https://github.com/apple/swift-docc-plugin", from: "1.0.0"),
   ]
 } else {
   package.dependencies += [
-    .package(path: "../swift-collections")
+    .package(path: "../swift-collections", name: "candle-swift-collections")
   ]
 }
