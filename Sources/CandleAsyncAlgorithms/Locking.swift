@@ -128,7 +128,7 @@ internal struct Lock {
   }
 }
 
-struct ManagedCriticalState<State> {
+public struct ManagedCriticalState<State> {
   private final class LockedBuffer: ManagedBuffer<State, Lock.Primitive> {
     deinit {
       withUnsafeMutablePointerToElements { Lock.deinitialize($0) }
